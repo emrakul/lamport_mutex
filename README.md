@@ -1,10 +1,15 @@
 # lamport_mutex
 
-mutual exclusion algorithm
+Lamport mutual exclusion algorithm
+
 hardcoded config file: 
-./config.cfg
+
+```./config.cfg```
+
 format: 
-{pid} {port_number}
+
+```{pid} {port_number}```
 
 to stress-test:
-python3 main.cpp 
+
+```$:python3 main.cpp```
