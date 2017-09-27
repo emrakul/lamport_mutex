@@ -12,4 +12,4 @@ format:
 
 to stress-test:
 
-```$:python3 main.cpp```
+```$:python3 main.py```
