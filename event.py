@@ -1,0 +1,3 @@
+REQUEST = '0'
+RELEASE = '1'
+REPLY = '2'
