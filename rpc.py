@@ -30,32 +30,31 @@ class RPC:
         pid, clock, event_id = deserialize(msg)
         if event_id == event.REQUEST:
             self.clock.clock = max(self.clock.get_clock()+1, int(clock))
-            self.request_cb(pid, clock, event_id)
+            self.request_cb(pid, clock, event.REPLY)
 
         if event_id == event.RELEASE:
             self.clock.clock = max(self.clock.get_clock()+1, int(clock))
-            self.release_cb(pid, clock, event_id)
+            self.release_cb(pid, clock, event.REPLY)
 
         if event_id == event.REPLY:
             self.replies += 1
-            self.last_event = self.clock.get_clock()
+            print(self.pid, 'RECIEVED REPLY FROM', pid, ' left:', len(self.other_pids) - self.replies)
 
     def request(self):
         self.replies = 0
+        self.clock.increment()
         for other_pid in self.other_pids:
-            self.clock.increment()
             self.channel.send(other_pid, self.clock.get_clock(), event.REQUEST)
-        while self.replies < len(self.other_pids):
-            time.sleep(0.1)
+
 
     def release(self):
+        self.clock.increment()
         for other_pid in self.other_pids:
-            self.clock.increment()
             self.channel.send(other_pid, self.clock.get_clock(), event.RELEASE)
 
     def reply(self, to_id, event_id):
         self.clock.increment()
-        self.channel.send(to_id, self.clock, event.REPLY)
+        self.channel.send(to_id, self.clock.get_clock(), event.REPLY)
 
 
 

@@ -10,9 +10,8 @@ def proc(i, j):
     current_port = ports[i]
     pids.remove(current_pid)
     ports.remove(current_port)
-    print(pids, ports)
     lamport = LamportMutex(current_pid, current_port, pids, ports)
-    time.sleep(4)
+    time.sleep(5) #Initializtion time to avoid self-deadlock (callback referencing itself)
     while True:
         lamport.lock_unlock()
 
